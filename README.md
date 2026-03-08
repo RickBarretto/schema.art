@@ -48,3 +48,15 @@ import {schema}!
 
 ## Documentation
 
+
+## TODO
+
+- [ ] Single element => `requires`and `possible`
+- [ ] Any element on the list => `.any`
+- [ ] List of elements => `.many`
+- [ ] Non-empty list of elements => `.some`
+- [ ] Unique elements => `.unique`
+- [ ] Ordered elements => `.ordered`
+- [ ] Builtin Regex => `.like`
+- [ ] Subtyping => `.of`
+- [ ] Validators => any other should match with `valid?` from validators.art

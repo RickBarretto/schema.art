@@ -1,0 +1,29 @@
+import {unitt}!
+import {src/lib.art}!
+
+describe "scheme::requires" [
+
+    it "is valid if all required fields are present" [
+        userSchema: schema [
+            name: requires :string
+            age: requires :integer
+        ]
+
+        expects.be: 'valid? [
+            #[name: "Rick" age: 30]
+            userSchema
+        ]
+    ]
+
+    it "is invalid if any required field is missing" [
+        userSchema: schema [
+            name: requires :string
+            age: requires :integer
+        ]
+
+        expects.be: 'invalid? [
+            #[name: "Rick"]
+            userSchema
+        ]
+    ]
+]

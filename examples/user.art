@@ -1,0 +1,17 @@
+
+
+user?: [dump :object :dictionary :database :][
+    valid? dump schema #[
+        name:        requires       :string
+        email:       requires       :string
+        age:         possible       :integer
+        job:         requires.any  [:string :literal]
+        friends:     requires.many  :literal
+
+        address: possible #[
+            street:  possible :string
+            city:    possible :string
+            country: requires :string
+        ]
+    ]
+]

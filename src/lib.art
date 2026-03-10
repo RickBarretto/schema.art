@@ -1,4 +1,64 @@
+requires: $[required :type][
+    result: #[
+        requirement: 'required
+        kind: required
+        any?: false
+        many?: false
+    ]
+    if attr? 'any  -> result\any?: true
+    if attr? 'many -> result\many?: true
+    return result
+]
 
-double: $[x][
-    mul x 2
+possible: $[required][
+    result: #[
+        requirement: 'optional
+        kind: required
+        any?: false
+        many?: false
+    ]
+
+    if attr? 'any  -> result\any?: true
+    if attr? 'many -> result\many?: true
+    return result
+]
+
+schema: $[definition][
+    if dictionary? definition -> return definition
+    dictionary definition
+]
+
+checkRule: $[data fieldName rule][
+    if not? key? data fieldName [
+        return rule\requirement = 'optional
+    ]
+
+    val: get data fieldName
+
+    if rule\many? [
+        if not? block? val -> return false
+        return every? val 'item -> (type item) = rule\kind
+    ]
+
+    if rule\any? [
+        return contains? rule\kind type val
+    ]
+
+    if dictionary? rule\kind [
+        if not? dictionary? val -> return false
+        return valid? val rule\kind
+    ]
+
+    (type val) = rule\kind
+]
+
+valid?: $[data schm][
+    loop schm [fieldName rule][
+        if not? checkRule data fieldName rule -> return false
+    ]
+    true
+]
+
+invalid?: $[data schm][
+    not? valid? data schm
 ]
